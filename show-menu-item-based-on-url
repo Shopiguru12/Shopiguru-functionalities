@@ -1,0 +1,197 @@
+<ul class="list-menu list-menu--inline" role="list">
+					{%- for link in section.settings.menu.links -%}
+						{% assign mega_menu = false %}
+						{% for block in section.blocks %}
+							{%- if block.type == 'mega_menu' -%}
+								{% assign mega_menu_trigger = block.settings.mega_menu_trigger | handle | strip %}
+								{% if link.handle == mega_menu_trigger %}
+									{% assign mega_menu = true %}
+									{% assign shopify_attributes = block.shopify_attributes %}
+									{% assign collection_list = block.settings.collection_list %}
+									{% assign heading = block.settings.heading %}
+									{% assign levels = link.levels %}
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+						<li class="{% if mega_menu %}list-menu--megamenu{% endif %}" {{ shopify_attributes }}>
+							{%- if link.links != blank -%}
+								<div class="header__menu-item list-menu__item link link-hover-line-outer focus-inset">
+									<span {%- if link.active or link.child_active %} class="header__active-menu-item"{% endif %} title="{{ link.title | escape }}">
+										{{ link.title | escape }}
+									</span>
+								</div>
+								{% if mega_menu %}
+									<div class="header__mega-menu mega-menu">
+										<div class="mega-menu__block container">
+											<div class="mega-menu__wrapper {% if collection_list == blank %}mega-menu__full-wrapper{% endif %}">
+												{% if heading != blank %}
+													<div class="mega-menu__heading">
+														{{ heading }}
+													</div>
+												{%- endif -%}
+												<ul class="mega-menu__list list-unstyled focus-inset {% if link.levels == 1 %}mega-menu__column{% endif %}">
+													{% for link in link.links %}
+														<li>
+															<a
+																href="{{ link.url }}"
+																{% if link.type == 'http_link' and settings.open_new_tab %} target="_blank" {% endif %}
+																class="mega-menu__link {% if link.current %} header__menu-item--active{% endif %} mega-menu__link-small {% if levels == 1 %}link-hover-line-long{% endif %}"
+																{% if link.current %}
+																	aria-current="page"
+																{% endif %}
+															>
+																<span>
+																	{{ link.title | escape }}
+																</span>
+															</a>
+															{% if link.links != blank %}
+																<ul class="mega-menu__submenu list-menu motion-reduce">
+																	{%- for link in link.links -%}
+																		<li>
+																			<a
+																				href="{{ link.url }}"
+																				{% if link.type == 'http_link' and settings.open_new_tab %} target="_blank" {% endif %}
+																				class="mega-menu__link link-hover-line-long{% if link.current %} header__menu-item--active{% endif %}"
+																				{% if link.current %}
+																					aria-current="page"
+																				{% endif %}
+																			>
+																				<span>
+																					{{ link.title | escape }}
+																				</span>
+																			</a>
+																		</li>
+																	{%- endfor -%}
+																</ul>
+															{% endif %}
+														</li>
+													{% endfor %}
+												</ul>
+											</div>
+											{% if collection_list != blank %}
+												<div class="mega-menu__items">
+													<div class="mega-menu__categories">
+														{%- for collection in collection_list -%}
+															<div class="mega-menu-categories-block mega-menu-categories-block-{{ forloop.length }}">
+																<div class="mega-menu-categories_img">
+																	<a {% if collection.all_products_count > 0 %} href="{{ collection.url }}"{% endif %}>
+																		{% if collection.featured_image %}
+																			{{
+																				collection.featured_image
+																				| image_url: width: 1066
+																				| image_tag:
+																					loading: 'lazy',
+																					widths: '533, 720, 940, 1066'
+																			}}
+																		{% else %}
+																			{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+																		{% endif %}
+																	</a>
+																</div>
+																<a {% if collection.all_products_count > 0 %} href="{{ collection.url }}"{% endif %}><h3>{{ collection.title }}</h3></a>
+																<a class="mega-menu-categories-link link-hover-line" {% if collection.all_products_count > 0 %} href="{{ collection.url }}"{% endif %}>
+																	{{ 'sections.header.shop_all' | t }}
+																</a>
+															</div>
+														{%- endfor -%}
+													</div>
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								{% else %}
+									<ul
+										class="header__submenu list-menu list-menu--disclosure caption-large motion-reduce"
+										role="list"
+									>
+										{%- for childlink in link.links -%}
+											<li>
+												{%- if childlink.links == blank -%}
+													<a
+														href="{{ childlink.url }}"
+														class="header__menu-item list-menu__item link link--text link-hover-line-long focus-inset caption-large{% if childlink.current %} header__menu-item--active{% endif %}"
+														{% if childlink.current %}
+															aria-current="page"
+														{% endif %}
+													>
+														<span>
+															{{ childlink.title | escape }}
+														</span>
+													</a>
+												{%- else -%}
+													<span class="header__menu-item link link--text link-hover-line-long list-menu__item focus-inset caption-large {% if childlink.child_active or childlink.active %} header__menu-item--active{% endif %}">
+														{%- if childlink.url == blank -%}
+                                                        <span>
+															{{ childlink.title | escape }} 
+														</span>
+                                                        {%- else -%}
+                                                        <a href="{{ childlink.url }}">
+                                                        <span>
+															{{ childlink.title | escape }} 
+														</span>
+                                                        </a>
+                                                        {%- endif -%}
+                                                      <span class="hidden">{{ childlink.url }}</span>
+													</span>
+													<ul
+														class="header__submenu list-menu--disclosure list-menu motion-reduce"
+														tabindex="0"
+													>
+														{%- for grandchildlink in childlink.links -%}
+															<li>
+																<a
+																	href="{{ grandchildlink.url }}"
+																	{% if link.type == 'http_link' and settings.open_new_tab %} target="_blank" {% endif %}
+																	class="header__menu-item list-menu__item link link--text link-hover-line-long focus-inset caption-large{% if grandchildlink.current %} header__menu-item--active{% endif %}"
+																	{% if grandchildlink.current %}
+																		aria-current="page"
+																	{% endif %}
+																>
+																	<span>
+																		{{ grandchildlink.title | escape }}
+																	</span>
+																</a>
+															</li>
+														{%- endfor -%}
+													</ul>
+												{%- endif -%}
+											</li>
+										{%- endfor -%}
+									</ul>
+								{% endif %}
+
+							{%- else -%}
+								<a href="{{ link.url }}" {% if link.type == 'http_link' and settings.open_new_tab %} target="_blank" {% endif %} class="header__menu-item header__menu-item list-menu__item link link-hover-line-outer focus-inset"{% if link.current %} aria-current="page"{% endif %}>
+									<span {%- if link.active %} class="header__active-menu-item"{% endif %} title="{{ link.title | escape }}">
+										{{ link.title | escape }}
+									</span>
+								</a>
+							{%- endif -%}
+						</li>
+					{%- endfor -%}
+                       <li id="menu-item-wave" class="">
+                          <a href="{{ section.settings.wave_link }}" class="header__menu-item header__menu-item list-menu__item link link-hover-line-outer focus-inset"{% if link.active %} aria-current="page"{% endif %}>
+                              <span class="text{% if link.active %} header__active-menu-item{% endif %}">{{ section.settings.wave_text | escape }}</span>
+                          </a>
+                      </li>
+				</ul>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('waveLink') || urlParams.has('kwikLink') || urlParams.has('kwiklink') || urlParams.has('wavelink')) {
+        // Set a session cookie to indicate that the menu item should be displayed
+        document.cookie = "showMenuItem=true; path=/";
+        document.getElementById('menu-item-wave').style.display = 'inline-block';
+      }
+
+      // Check if the session cookie is set to show the menu item
+      var showMenuItem = document.cookie.split(';').some(function(cookie) {
+        return cookie.trim().startsWith('showMenuItem=');
+      });
+
+      if (showMenuItem) {
+        document.getElementById('menu-item-wave').style.display = 'inline-block';
+      }
+    });
+  </script>
