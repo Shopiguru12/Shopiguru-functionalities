@@ -1,0 +1,38 @@
+  <div class="navigation__tier-3-container navigation__child-tier">
+                          <ul class="navigation__tier-3">
+                            {% for child_child_link in child_link.links %}
+                            <li class="navigation__item{% if featured_links contains child_child_link.title %} featured-link{% endif %}">
+                              <a class="pre-img-{{ child_child_link.title | downcase | replace: ' ', '-' }} navigation__link" href="{{ child_child_link.url }}">{{ child_child_link.title | escape }}</a>
+                            </li>
+                              {% if section.settings.enable_menu_icons %}
+                              <style>
+                                  ul.navigation__tier-3 li.navigation__item a.navigation__link.pre-img-{{ child_child_link.title | downcase | replace: ' ', '-' }}{
+                                      position:relative;
+                                  }
+                                  ul.navigation__tier-3 li.navigation__item a.navigation__link.pre-img-{{ child_child_link.title | downcase | replace: ' ', '-' }}:before{
+                                    content: "";
+                                    position: absolute;
+                                    background-image: url('https://cdn.shopify.com/s/files/1/0795/7882/4999/files/{{ child_child_link.title | downcase | replace: ' ', '-' }}.svg');
+                                    width: 25px;
+                                    height: 25px;
+                                    background-position: center;
+                                    background-size: contain;
+                                    background-repeat: no-repeat;
+                                    left: -30px;
+                                    top: 0;
+                                  }
+                                @media(max-width:767px){
+                                  ul.navigation__tier-3 li.navigation__item a.navigation__link.pre-img-{{ child_child_link.title | downcase | replace: ' ', '-' }}{
+                                        padding-left: 45px;
+                                  }
+                                  ul.navigation__tier-3 li.navigation__item a.navigation__link.pre-img-{{ child_child_link.title | downcase | replace: ' ', '-' }}:before{
+                                      left: 10px;
+                                      top: 50%;
+                                      transform: translateY(-50%);
+                                  }
+                                }
+                                {% endif %}
+                                </style>
+                            {% endfor %}
+                          </ul>
+                        </div>
