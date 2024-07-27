@@ -1,0 +1,80 @@
+ {% if customer.tags contains 'b2b' %}
+  <div class="free-ship more-vale custom-msg ship-one">il manque <b>{{ val3 }}</b> $ pour que vous soyez elligible à la commande au prix distributeur </div>
+    {% else %}
+    <div class="free-ship more-vale custom-msg ship-two">Il manque  <b>{{ val3 }}</b> $ pour avoir accès à la livraison gratuite</div>
+    {% endif %}
+{% endif %}
+
+  {% assign per = val2 | minus: val3 | times: 100.00 | divided_by: val2 | money_without_currency | times: 100.00 | round: 2 %}
+<script>
+  $(document).ready(function(){
+    $('.quantity-up, .quantity-down').click(function(){
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
+    });
+    {% assign val1 = cart.original_total_price | money_without_currency | plus: 0 %}
+  {% if customer.tags contains 'b2b' %}
+    {% assign val2 = 350 %}
+  {% else %}
+    {% assign val2 = 100 %}
+  {% endif %}
+  {% assign val3 = val2 | minus: val1 %}
+    console.log({{ val3 | json }});
+      setTimeout(function () {
+        var searchText = "English";
+        var newText = "English";
+        jQuery(".custom-select__btn .text-start").each(function(){
+            var currentText = jQuery(this).text();
+            if(currentText.includes(searchText)){
+                jQuery(this).text(currentText.replace(searchText, newText));
+              jQuery('.btn.drawer-cart').text('Go To Cart');
+              jQuery('.free-one').text('Congratulations! You have reached the minimum amount to be eligible for the distributor price');
+              jQuery('.free-two').text('Free delivery for orders over $100!');
+              jQuery('.ship-one').text({{ val3 | json }} + '$ is missing for you to be eligible to order at the distributor price');
+              jQuery('.ship-two').text('Spend $' + {{ val3 | json }} + ' more & GET FREE SHIPPING');
+           }
+        });
+    }, 2000);
+  });
+</script>
+<div class="ThresholdProgressBar__Bar">
+   <span style="width:{{ per }}%"></span>
+</div> 
+<style>
+    .free-ship b {
+    color: #542c02;
+}
+    .free-ship {
+    font-size: 18px;
+    padding: 5px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0px 0 10px !important;
+    display: block;
+}
+  .ThresholdProgressBar__Bar {
+    width: 320px;
+    height: 17px;
+    position: relative;
+    margin-bottom: 3px;
+    display: none;
+    margin: 0 auto;
+    border-radius: 20px;
+    background: #f1f5f6;
+    display: block;
+    margin-bottom: 30px !important;
+}
+    .ThresholdProgressBar__Bar span {
+    height: 17px;
+    top: 0;
+    left: 0;
+    background: #542c02;
+    width: 0;
+    animation: .5s reveal-progress ease;
+    animation-fill-mode: forwards;
+    border-radius: 20px;
+    position: absolute;
+      max-width: 100%;
+}
+</style>
