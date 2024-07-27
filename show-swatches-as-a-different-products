@@ -1,0 +1,233 @@
+{% comment %} PRODUCT SWATCH LINKS {% endcomment %}
+{% assign productTags = product.tags | join:',' %}
+{%- if product.type == "Watches" and productTags contains 'variants--color--'-%}
+<div class="swatch-container">
+  {%- elsif product.type == "Watches" and productTags contains 'variants--size--'-%}
+  <div class="non-swatch-container">
+    {%- elsif productTags contains 'variants--color--' or productTags contains 'variants--size--' -%}
+    <div class="mix-swatch-container">
+      {%- else -%}
+      <div class="non-swatch-container">
+        {% endif %}
+        {%- if productTags contains 'variants--color--' or productTags contains 'variants--size--'-%}
+
+        <div class="product-swatch-links-wrapper">
+          {%- if productTags contains 'variants--color--' -%}
+          <div class="product-option-wrapper">
+            <div data-optionpositon="option1" class="product-option-block">
+              <div class="option-list-wrapper">
+                {% for tag in product.tags %}
+                {%- if tag contains 'variants--color--' -%}
+                {%- assign tagValue = tag | remove: "variants--color--" -%}
+                {% assign tagWords = tagValue | split: '--' %}
+                {% assign Words = tagValue | split: '-' %}
+                {% assign last_sentence = Words.first %}
+                {%- assign taggedValue = tagWords[1] | remove: last_sentence -%}
+                {% if product.handle != tagWords[1] %}<a href="/products/{{tagWords[1]}}">
+                  {% if tagWords[0] contains "boyfriend" or tagWords[0] contains "vivid" or tagWords[0] contains "jade"
+                  or tagWords[0] contains "norse" or tagWords[0] contains "Tribeca" %}
+                  <div class="watch swatch-color-option {% if product.handle == tagWords[1] %} active  {% endif %}">
+                    <div class="option_color option-block"
+                      style="background-color: {{ tagWords[0] }}; background-image: url({{ tagWords[0] | append: '.png' | asset_url }})">
+                    </div>
+                  </div>
+                  {%- else -%}
+                  <div class="swatch-color-option {% if product.handle == tagWords[1] %} active  {% endif %}">
+                    <div class="option_color option-block"
+                      style="background-color: {{ tagWords[0] }}; background-image: url({{ tagWords[0] | append: '.png' | asset_url }})">
+                    </div>
+                  </div>
+                  {% endif %}
+                </a>
+                {% else %}
+                <a href="javascript:void(0);">
+                  {% if tagWords[0] contains "boyfriend" or tagWords[0] contains "vivid" or tagWords[0] contains "jade"
+                  or tagWords[0] contains "norse" or tagWords[0] contains "Tribeca" %}
+                  <div class="watch swatch-color-option {% if product.handle == tagWords[1] %} active  {% endif %}">
+                    <div class="option_color option-block"
+                      style="background-color: {{ tagWords[0] }}; background-image: url({{ tagWords[0] | append: '.png' | asset_url }})">
+                    </div>
+                  </div>
+                  {%- else -%}
+                  <div class="swatch-color-option {% if product.handle == tagWords[1] %} active  {% endif %}">
+                    <div class="option_color option-block"
+                      style="background-color: {{ tagWords[0] }}; background-image: url({{ tagWords[0] | append: '.png' | asset_url }})">
+                    </div>
+                  </div>
+                  {% endif %}
+                </a>
+                {% endif %}
+                {%- endif -%}
+                {% endfor %}
+                <a style="display:none;" class="plus-swatch" href="{{ product.url }}">+</a>
+              </div>
+            </div>
+          </div>
+          {%endif%}
+
+          {% comment %}
+          {%- if productTags contains 'variants--size--' -%}
+          <div class="product-option-wrapper">
+            <div data-optionpositon="option1" class="product-option-block">
+              <div class="option-list-wrapper">
+                {% for tag in product.tags %}
+                {%- if tag contains 'variants--size--' -%}
+                {%- assign tagValue = tag | remove: "variants--size--" -%}
+                {% assign tagWords = tagValue | split: '--' %}
+                {% unless product.handle == tagWords[1] %}<a href="/products/{{tagWords[1]}}">{% endunless %}
+                  <div class="swatch-size-option">
+                    <div class="option-block option-size {% if product.handle == tagWords[1] %} active  {% endif %}">
+                      {{tagWords[0]}}
+                    </div>
+                  </div>
+                  {% unless product.handle == tagWords[1] %}
+                </a>{% endunless %}
+                {%- endif -%}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {%endif%}
+          {% endcomment %}
+        </div>
+        {%endif%}
+      </div>
+
+      {%- if productTags contains 'variants--strap-type--' or productTags contains 'variants--dial-colour--'-%}
+      <div class="product-swatch-links-wrapper">
+        {% comment%}
+        {%- if productTags contains 'variants--strap-type--' -%}
+        <div class="product-option-wrapper">
+          <div data-optionpositon="option1" class="product-option-block">
+            <div class="option-list-wrapper">
+              {% for tag in product.tags %}
+              {%- if tag contains 'variants--strap-type--' -%}
+              {%- assign tagValue = tag | remove: "variants--strap-type--" -%}
+              {% assign tagWords = tagValue | split: '--' %}
+              {% unless product.handle == tagWords[1] %}<a href="/products/{{tagWords[1]}}">{% endunless %}
+                <div class="swatch-size-option">
+                  <div class="option-block option-strap {% if product.handle == tagWords[1] %} active  {% endif %}">
+                    {{tagWords[0]}}
+                  </div>
+                </div>
+                {% unless product.handle == tagWords[1] %}
+              </a>{% endunless %}
+              {%- endif -%}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {%endif%}
+        {% endcomment %}
+
+        {%- if productTags contains 'variants--dial-colour--' -%}
+        <div class="product-option-wrapper">
+          <div data-optionpositon="option1" class="product-option-block">
+            <div class="option-list-wrapper">
+              {% for tag in product.tags %}
+              {%- if tag contains 'variants--dial-colour--' -%}
+              {%- assign tagValue = tag | remove: "variants--dial-colour--" -%}
+              {% assign tagWords = tagValue | split: '--' %}
+              {% unless product.handle == tagWords[1] %}<a href="/products/{{tagWords[1]}}">{% endunless %}
+                <div
+                  class="variants--dial-colour swatch-color-option {% if product.handle == tagWords[1] %} active  {% endif %}">
+                  <div class="option_color option-block"
+                    style="background-color: {{ tagWords[0] }}; background-image: url({{ tagWords[0] | append: '.png' | asset_url }})">
+                  </div>
+                </div>
+                {% unless product.handle == tagWords[1] %}
+              </a>{% endunless %}
+              {%- endif -%}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {%endif%}
+
+      </div>
+      {%endif%}
+
+      <style>
+        .product-swatch-links-wrapper .product-option-wrapper .product-option-block .option-list-wrapper .option-block.option-size {
+          font-size: 12px;
+          width: 58px;
+          min-width: 58px;
+          height: 25px;
+          border: none;
+          text-transform: uppercase;
+          border: 0.25px solid #D9D9D9;
+          border-radius: 2px;
+          font-weight: 400;
+          text-align: center;
+          margin-left: 10px;
+        }
+
+        .product-swatch-links-wrapper .product-option-wrapper .product-option-block .option-list-wrapper .option-block.option-size.active {
+          color: #000;
+          background-color: transparent;
+          border-radius: 2px;
+          border: 1px solid #000;
+        }
+
+        /* .product-swatch-links-wrapper .product-option-wrapper .product-option-block .option-list-wrapper .watch.swatch-color-option.active .option_color {
+    border: 1px solid #000;
+    border-radius: 5px;
+} */
+        .product-swatch-links-wrapper .product-option-wrapper .product-option-block .option-list-wrapper .watch.swatch-color-option {
+          width: 45px;
+          height: 60px;
+          border-radius: 5px;
+          border: none;
+          margin-right: 5px;
+        }
+
+        .product-swatch-links-wrapper .product-option-wrapper .product-option-block .option-list-wrapper .watch.swatch-color-option .option_color {
+          width: 100%;
+          height: 100%;
+          background-size: contain;
+          background-repeat: no-repeat;
+          image-rendering: pixelated;
+        }
+
+        .product-swatch-links-wrapper .product-option-wrapper .product-option-block .option-list-wrapper {
+          display: flex;
+          width: 100%;
+          align-items: center;
+        }
+
+        .product-swatch-links-wrapper .product-option-wrapper .product-option-block .option-list-wrapper.color {
+          flex-wrap: wrap;
+        }
+
+        .product-swatch-links-wrapper {
+          display: flex;
+          margin: 20px 0 10px;
+          justify-content: space-between;
+          align-items: start;
+          width: 100%;
+        }
+      </style>
+      <script>
+        $(document).ready(function () {
+          setInterval(function () {
+            $(".swatch-container .option-list-wrapper").each(function () {
+              var count = $(this).find("a").length;
+              if ($(window).width() > 1190) {
+                var rem_count = count - 7;
+                if (count > 7) {
+                  jQuery(this).find('a:nth-of-type(1n+7)').css("display", "none");
+                  jQuery(this).find('.plus-swatch').text("+" + rem_count);
+                  jQuery(this).find('.plus-swatch').css("display", "flex");
+                }
+              } else {
+                var rem_count = count - 4;
+                if (count > 4) {
+                  jQuery(this).find('a:nth-of-type(1n+4)').css("display", "none");
+                  jQuery(this).find('.plus-swatch').text("+" + rem_count);
+                  jQuery(this).find('.plus-swatch').css("display", "flex");
+                }
+              }
+            });
+          }, 2000);
+        }); 
+      </script>
