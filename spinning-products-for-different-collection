@@ -1,0 +1,377 @@
+{% assign max_items = 15 %}
+{% assign count1 = 0 %}
+{% assign count2 = 0 %}
+{% assign array_of_products = collection.metafields.custom.circle_products.value %}
+
+<div
+  class="{% if collection.metafields.custom.circle_products == blank %}d-none{% endif %} circle-products section-{{ section.id }} {{ section.settings.custom-cls }}"
+  style="background-color:{{ section.settings.back_clr }}"
+>
+  <div class="page-width">
+    <div class="inner-cls">
+      <div class="content-block">
+        <div class="circle-container">
+          <div class="circle-item">
+            {% for product in array_of_products %}
+              {% if count1 < max_items %}
+                <div class="circle-tab">
+                  <img
+                    src="{{ product.featured_image | img_url: '95x95' }}"
+                    data-index="{{ forloop.index0 }}"
+                    class="circle-img"
+                  >
+                </div>
+                {% assign count1 = count1 | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="main-product">
+            {% for product in array_of_products %}
+              {% if count2 < max_items %}
+                <div class="product-item" id="product-{{ forloop.index0 }}">
+                  <a href="{{ product.url }}">
+                    <img src="{{ product.featured_image | img_url: '250x250' }}">
+                  </a>
+                </div>
+                {% assign count2 = count2 | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    :root {
+    --translate-distance: 220px;
+  }
+
+  @media (max-width: 600px) {
+    :root {
+      --translate-distance: 150px; /* Adjust this value for mobile */
+    }
+  }
+    .section-{{ section.id }}{
+       padding-top: {{ section.settings.mg_top_desktop | append: 'px' }};
+      padding-bottom: {{ section.settings.mg_bottom_desktop | append: 'px' }};
+    }
+    @media(max-width:1024px){
+    .section-{{ section.id }}{
+       padding-top: {{ section.settings.mg_top_tablet | append: 'px' }};
+      padding-bottom: {{ section.settings.mg_bottom_tablet | append: 'px' }};
+    }
+    }
+    @media(max-width:767px){
+    .section-{{ section.id }}{
+       padding-top: {{ section.settings.mg_top_mobile | append: 'px' }};
+      padding-bottom: {{ section.settings.mg_bottom_mobile | append: 'px' }};
+    }
+    }
+
+    /* ---------------------------circle products------------------------- */
+  .circle-item {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor:grab;
+  }
+
+  .circle-tab {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      cursor:pointer;
+  }
+
+  .circle-tab.active-cls img{
+    border-color:#c3bebe;
+    background-color:#fff;
+  }
+  .circle-tab.active-cls:after{
+      content: "";
+      position: absolute;
+      width: 1px;
+      background: #c3bebe;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      transform-origin: 0 100%;
+      height:175px;
+  }
+  .product-item{
+    display:none;
+  }
+  .product-item img{
+    width:260px;
+    height:260px;
+    object-fit:contain;
+  }
+  .product-item.active{
+    display:block;
+  }
+
+  .circle-container{
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .main-product{
+      display: inline-block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  }
+  .circle-tab img{
+      cursor:pointer;
+      border:2px solid transparent;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      padding:5px;
+      object-fit: contain;
+      z-index:99;
+  }
+  .circle-item .circle-tab:nth-child(1):after {
+      transform: translate(0px, -50px) rotate(0deg);
+  }
+  .circle-item .circle-tab:nth-child(2):after {
+      transform: translate(0px, -50px) rotate(24deg);
+  }
+  .circle-item .circle-tab:nth-child(3):after {
+      transform: translate(0px, -50px) rotate(48deg);
+  }
+  .circle-item .circle-tab:nth-child(4):after{
+    transform: translate(0px, -50px) rotate(72deg);
+  }
+  .circle-item .circle-tab:nth-child(5):after{
+    transform: translate(0px, -50px) rotate(96deg);
+  }
+  .circle-item .circle-tab:nth-child(6):after{
+    transform: translate(0px, -50px) rotate(120deg);
+  }
+  .circle-item .circle-tab:nth-child(7):after{
+    transform: translate(0px, -50px) rotate(144deg);
+  }
+  .circle-item .circle-tab:nth-child(8):after{
+    transform: translate(0px, -50px) rotate(168deg);
+  }
+  .circle-item .circle-tab:nth-child(9):after{
+    transform: translate(0px, -50px) rotate(192deg);
+  }
+  .circle-item .circle-tab:nth-child(10):after{
+    transform: translate(0px, -50px) rotate(216deg);
+  }
+  .circle-item .circle-tab:nth-child(11):after{
+    transform: translate(0px, -50px) rotate(240deg);
+  }
+  .circle-item .circle-tab:nth-child(12):after{
+    transform: translate(0px, -50px) rotate(264deg);
+  }
+  .circle-item .circle-tab:nth-child(13):after{
+    transform: translate(0px, -50px) rotate(288deg);
+  }
+  .circle-item .circle-tab:nth-child(14):after{
+    transform: translate(0px, -50px) rotate(312deg);
+  }
+  .circle-item .circle-tab:nth-child(15):after{
+    transform: translate(0px, -50px) rotate(336deg);
+  }
+    @media(max-width:600px){
+      .circle-item{
+        width:320px;
+        height:400px;
+      }
+      .circle-tab img{
+        width:70px;
+        height:70px;
+        padding:3px;
+      }
+      .product-item img{
+    width:150px;
+    height:150px;
+  }
+      .circle-tab.active-cls:after{
+        height:160px;
+      }
+    }
+  /* -------------------------------------------------------------------- */
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.circle-tab');
+    const products = document.querySelectorAll('.product-item');
+
+    tabs.forEach((tab, index) => {
+      const img = tab.querySelector('img'); // Select the image inside the circle-tab
+      img.addEventListener('click', function() {
+        // Remove active class from all product items
+        products.forEach(product => product.classList.remove('active'));
+        
+        // Add active class to the clicked tab's corresponding product item
+        const product = document.getElementById('product-' + index);
+        product.classList.add('active');
+
+        // Remove active-cls from all tabs
+        tabs.forEach(t => t.classList.remove('active-cls'));
+
+        // Add active-cls to the clicked tab
+        tab.classList.add('active-cls');
+      });
+    });
+
+    // Optional: Show the first product item by default and mark the first tab as active
+    if (products.length > 0 && tabs.length > 0) {
+      products[0].classList.add('active');
+      tabs[0].classList.add('active-cls');
+    }
+});
+
+
+
+
+
+gsap.registerPlugin(Draggable);
+
+const circleTabs = document.querySelectorAll('.circle-tab img');
+
+const getComputedTranslateDistance = () => {
+  return getComputedStyle(document.documentElement).getPropertyValue('--translate-distance').trim();
+};
+
+const arrangeTabs = () => {
+  const translateDistance = getComputedTranslateDistance();
+  const angleStep = 360 / circleTabs.length;
+  circleTabs.forEach((tab, index) => {
+    const initialRotation = index * angleStep - 90; // Offset by -90 degrees to start from the top
+    tab.style.transform = `rotate(${initialRotation}deg) translate(${translateDistance}) rotate(${-initialRotation}deg)`;
+  });
+};
+
+arrangeTabs();  // Arrange the tabs initially
+
+const draggable = Draggable.create(".circle-item", {
+  type: "rotation",
+  allowEventDefault: true,
+  inertia: true,
+  onDrag: function() {
+    // Rotate the .circle-item to reflect dragging
+    gsap.to(".circle-item", {
+      rotation: this.rotation,
+      overwrite: true
+    });
+
+    // Counter-rotate each .circle-tab element
+    const translateDistance = getComputedTranslateDistance();
+    circleTabs.forEach((tab, index) => {
+      const angleStep = 360 / circleTabs.length;
+      const initialRotation = index * angleStep - 90; // Offset by -90 degrees to start from the top
+      tab.style.transform = `rotate(${initialRotation}deg) translate(${translateDistance}) rotate(${-initialRotation - this.rotation}deg)`;
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Circle Products",
+  "settings": [
+    {
+      "type": "color",
+      "id": "back_clr",
+      "label": "Background Color"
+    },
+     {
+          "type": "header",
+          "content": "Top Spacing"
+      },
+      {
+          "type": "range",
+          "id": "mg_top_desktop",
+          "label": "Top Desktop",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_top_tablet",
+          "label": "Top Tablet",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_top_mobile",
+          "label": "Top Mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "header",
+          "content": "Bottom Spacing"
+      },
+      {
+          "type": "range",
+          "id": "mg_bottom_desktop",
+          "label": "Bottom Desktop",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_bottom_tablet",
+          "label": "Bottom Tablet",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_bottom_mobile",
+          "label": "Bottom Mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+       {
+      "type": "text",
+      "id": "custom-cls",
+      "label": "Add Custom Class"
+    }
+  ],
+  "presets": [
+    {
+    "name": "Circle Products"
+    }
+  ]
+}
+{% endschema %}
