@@ -1,0 +1,723 @@
+<div class="video-story section-{{ section.id }} {{ section.settings.custom-cls }}"
+  style="background-color:{{ section.settings.back_clr }}"
+>
+  <div class="page-width" style="position:relative;">
+    <div class="head-cls">
+      {% if section.settings.heading != blank %}
+        <h2 class="font47 content-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.sub_heading != blank %}
+        <div class="font16 content-desc">{{ section.settings.sub_heading }}</div>
+      {% endif %}
+    </div>
+    <div class="stories">
+      <div class="story">
+        <div class="video-item">
+          <button class="scroll-btn left-btn"><img width="50" height="50" src="https://cdn.shopify.com/s/files/1/0735/0966/7136/files/left_arrow.png?v=1718726741"></button>
+          <div class="video-list-crousel">
+            {% for block in section.blocks %}
+              <div class="label-cls">
+                <video class="popup-video" src="{{ block.settings.video_link }}" autoplay loop muted></video>
+                {%- assign product = all_products[block.settings.featured_product] -%}
+                {%- render 'video-product-template-small',
+                  product: product,
+                  section_id: section.id,
+                  context: 'featured-product'
+                -%}
+              </div>
+            {% endfor %}
+          </div>
+          <button class="scroll-btn right-btn"><img width="50" height="50" src="https://cdn.shopify.com/s/files/1/0735/0966/7136/files/right_arrow.png?v=1718726741"></button>
+        </div>
+        <div class="story-popup">
+          <div class="carousel">
+            {% for block in section.blocks %}
+              {%- assign product = all_products[block.settings.featured_product] -%}
+              <div class="carousel-item">
+                <button class="mute-btn">🔊</button>
+                <div class="inner-cls">
+                  <div class="left-cls">
+                    <video class="popup-video" src="{{ block.settings.video_link }}" loop autoplay></video>
+                  </div>
+                  <div class="right-cls">
+                    <div class="desktop-cls">
+                      {%- render 'video-product-template',
+                        product: product,
+                        section_id: section.id,
+                        context: 'featured-product'
+                      -%}
+                    </div>
+                    <a class="btn view-btn-cls" href="{{ product.url }}">
+                      <span>View Product</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="navigation">
+            <span class="arrow" id="prev">&laquo;</span>
+            <span class="arrow" id="next">&raquo;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  /*--------------------Section-------------------- */
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.mg_top_desktop | append: 'px' }};
+    padding-bottom: {{ section.settings.mg_bottom_desktop | append: 'px' }};
+  }
+  @media(max-width: 1024px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.mg_top_tablet | append: 'px' }};
+      padding-bottom: {{ section.settings.mg_bottom_tablet | append: 'px' }};
+    }
+  }
+  @media(max-width: 767px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.mg_top_mobile | append: 'px' }};
+      padding-bottom: {{ section.settings.mg_bottom_mobile | append: 'px' }};
+    }
+  }  
+
+/*--------------------Video Story Section-------------------- */
+.video-story .scroll-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.video-story .left-btn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.video-story .right-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.video-story .story .video-item {
+  padding: 0 20px;
+}
+
+.video-story .story .video-list-crousel {
+  display: flex;
+  align-items: start;
+  overflow: auto;
+}
+
+.video-story .story .video-list-crousel::-webkit-scrollbar {
+  display: none;
+}
+
+.video-story .story .video-item .label-cls {
+  position: relative;
+  overflow: hidden;
+  width: 20%;
+  flex: none;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.video-story .story .video-item .story-product-item {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 63%, rgba(0, 0, 0, 0) 86%);
+  color: #fff;
+}
+
+.video-story .story .video-item .story-product-item .title-cls {
+  font-size: 12px;
+  color: #fff !important;
+  font-weight: 500;
+}
+
+.video-story .story .video-item .story-product-item .price-cls .on-sale .buckscc-money {
+  color: #afff89 !important;
+}
+
+.video-story .story .video-item .story-product-item .buckscc-money {
+  font-size: 12px;
+  color: #fff !important;
+  font-weight: 400;
+}
+
+.video-story .story .video-item .story-product-item .product__price--compare .buckscc-money {
+  -webkit-text-decoration: line-through;
+  text-decoration: line-through;
+}
+
+.video-story .story .video-item .story-product-item .product__price--compare {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+.video-story .story .story-product-item img {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.video-story .label-cls {
+  display: block;
+}
+
+.video-story .story-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.5s, transform 0.5s;
+  z-index: 9999999999;
+}
+
+.video-story .story-popup.visible {
+  display: flex;
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.video-story .story-popup.hidden {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.video-story .carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 20px;
+}
+
+.video-story .carousel-item {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: .5s ease-in-out 0s;
+}
+
+.video-story .carousel-item .inner-cls {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  background: #fff;
+  padding: 15px;
+  max-width: 1000px;
+  margin: 0 20px;
+  overflow: auto;
+}
+
+.video-story .carousel-item .inner-cls>div {
+  flex: 1;
+}
+
+.video-story .carousel-item.active {
+  opacity: 1;
+  display: flex;
+  transition: .5s ease-in-out 0s;
+}
+
+.video-story .story-popup .arrow {
+  cursor: pointer;
+  background: rgb(255, 255, 255, .6);
+  color: #000;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 1px solid;
+  border-radius: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.video-story .story-popup .item-btn {
+  color: #fff;
+  text-align: center;
+  display: block;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  transition: .2s ease-in-out 0s;
+}
+
+.video-story .story-popup .item-btn span {
+  margin: 10px;
+}
+
+.video-story .story-popup .item-btn:hover {
+  text-underline-offset: 12px;
+  transition: .2s ease-in-out 0s;
+}
+
+.video-story .story-popup .arrow#prev {
+  left: 40px;
+}
+
+.video-story .story-popup .arrow#next {
+  right: 40px;
+}
+
+.video-story .popup-video {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.video-story .story-popup .popup-video {
+  max-height: 600px;
+}
+
+.video-story .navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.video-story .mute-btn {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+  z-index: 9;
+}
+
+.video-story .story-popup .page-content--product {
+  padding: 0 !important;
+  border: none !important;
+}
+
+.video-story .story-popup .grid--product-images-right .product-single__meta,
+.video-story .story-popup .page-width {
+  padding: 0 !important;
+}
+
+.video-story .story-popup .rte {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.video-story .video-story .story-popup .product-single__meta .product-single__title {
+  font-size: 24px;
+}
+
+.video-story .story-popup .product-single__meta .product-block--price span.buckscc-money,
+.video-story .story-popup .product-single__meta .product-block--price span.product__price-savings {
+  font-size: 14px;
+}
+
+.video-story .story-popup .product-block {
+  margin-bottom: 20px;
+}
+
+.video-story .story-popup .product-block:nth-last-child(1) {
+  margin-bottom: 10px;
+}
+
+.video-story .story-popup img {
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.video-story .story-popup .view-btn-cls {
+  max-width: 100%;
+  width: 100%;
+  margin: 20px auto 0;
+}
+
+.video-story .story-popup .product-single__meta variant-swatch-king label.swatch-label {
+  font-size: 16px !important;
+}
+
+.video-story .story-popup .product-single__meta .swatch-button .swatch-button-title-text {
+  font-size: 12px !important;
+}
+
+@media(max-width:767px) {
+  .video-story .scroll-btn {
+    display: none;
+  }
+
+  .video-story .story .video-item .label-cls {
+    width: 60%;
+  }
+
+  .video-story .story .video-item {
+    padding: 0;
+  }
+
+  .video-story .carousel-item .inner-cls {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    margin: 0 10px;
+  }
+
+  .video-story .carousel-item .inner-cls .desktop-cls {
+    display: none;
+  }
+
+  .video-story .story-popup .arrow#prev {
+    left: 10px;
+  }
+
+  .video-story .story-popup .arrow#next {
+    right: 10px;
+  }
+
+  .video-story .story .video-item .story-product-item {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .video-story .story-popup .popup-video {
+    max-height: 400px;
+  }
+}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const stories = document.querySelectorAll('.story');
+    let currentStoryIndex = 0;
+    let currentCarouselIndex = 0;
+    let isAnimating = false;
+
+    function openModal(popup) {
+        popup.style.display = 'flex';
+        setTimeout(() => {
+            popup.classList.add('visible');
+            popup.classList.remove('hidden');
+        }, 10);
+        updateCarouselItems(popup);
+    }
+
+    function closeModal(popup) {
+        const activeCarouselItem = popup.querySelector('.carousel-item.active');
+        if (activeCarouselItem) {
+            const video = activeCarouselItem.querySelector('.popup-video');
+            video.pause();
+        }
+        popup.classList.add('hidden');
+        setTimeout(() => {
+            popup.style.display = 'none';
+            popup.classList.remove('visible');
+            autoplayLabelVideos(); // Ensure label-cls videos autoplay again
+        }, 500);
+        pauseAllCarouselVideos(); // Pause all carousel-item videos
+    }
+
+    function updateCarouselItems(popup) {
+        const carouselItems = popup.querySelectorAll('.carousel-item');
+        carouselItems.forEach((item, index) => {
+            item.classList.remove('active', 'prev', 'next');
+            if (index === currentCarouselIndex) {
+                item.classList.add('active');
+                item.querySelector('.popup-video').play();
+            } else {
+                item.querySelector('.popup-video').pause();
+            }
+        });
+    }
+
+    function changeCarouselItem(newIndex) {
+        if (isAnimating) return; // Prevent changing slides while animating
+        isAnimating = true;
+
+        const popup = stories[currentStoryIndex].querySelector('.story-popup');
+        const carouselItems = popup.querySelectorAll('.carousel-item');
+
+        const oldIndex = currentCarouselIndex;
+        currentCarouselIndex = newIndex;
+
+        const direction = newIndex > oldIndex ? 'next' : 'prev';
+        const newItem = carouselItems[currentCarouselIndex];
+        const oldItem = carouselItems[oldIndex];
+
+        newItem.classList.add(direction);
+        setTimeout(() => {
+            newItem.classList.add('active');
+            oldItem.classList.remove('active', 'prev', 'next');
+            newItem.classList.remove(direction);
+
+            oldItem.querySelector('.popup-video').pause();
+            newItem.querySelector('.popup-video').play();
+
+            isAnimating = false;
+        }, 500); // Duration should match the CSS transition
+    }
+
+    function pauseAllVideos() {
+        const allVideos = document.querySelectorAll('.popup-video');
+        allVideos.forEach(video => {
+            video.pause();
+        });
+    }
+
+    function pauseAllCarouselVideos() {
+        const allCarouselVideos = document.querySelectorAll('.carousel-item .popup-video');
+        allCarouselVideos.forEach(video => {
+            video.pause();
+        });
+    }
+
+    function autoplayLabelVideos() {
+        const labelVideos = document.querySelectorAll('.label-cls video');
+        labelVideos.forEach(video => {
+            video.play();
+        });
+    }
+
+    stories.forEach((story, index) => {
+        const labels = story.querySelectorAll('.label-cls');
+        const popup = story.querySelector('.story-popup');
+        const muteButtons = popup.querySelectorAll('.mute-btn');
+
+        labels.forEach((label, labelIndex) => {
+            label.addEventListener('click', () => {
+                currentStoryIndex = index;
+                currentCarouselIndex = labelIndex;
+                pauseAllVideos();
+                openModal(popup);
+            });
+        });
+
+        const prevButton = popup.querySelector('#prev');
+        const nextButton = popup.querySelector('#next');
+
+        prevButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const carouselItems = popup.querySelectorAll('.carousel-item');
+            if (currentCarouselIndex > 0) {
+                pauseAllVideos();
+                changeCarouselItem(currentCarouselIndex - 1);
+            } else {
+                pauseAllVideos();
+                changeCarouselItem(carouselItems.length - 1);
+            }
+        });
+
+        nextButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const carouselItems = popup.querySelectorAll('.carousel-item');
+            if (currentCarouselIndex < carouselItems.length - 1) {
+                pauseAllVideos();
+                changeCarouselItem(currentCarouselIndex + 1);
+            } else {
+                pauseAllVideos();
+                changeCarouselItem(0);
+            }
+        });
+
+        muteButtons.forEach((muteButton) => {
+            muteButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const video = muteButton.closest('.carousel-item').querySelector('.popup-video');
+                video.muted = !video.muted;
+                muteButton.textContent = video.muted ? '🔇' : '🔊';
+            });
+        });
+
+        popup.addEventListener('click', (event) => {
+            if (event.target === popup) {
+                closeModal(popup);
+            }
+        });
+
+        // Add functionality to the scroll buttons
+        const videoListCrousel = story.querySelector('.video-list-crousel');
+        const leftBtn = story.querySelector('.left-btn');
+        const rightBtn = story.querySelector('.right-btn');
+
+        leftBtn.addEventListener('click', () => {
+            videoListCrousel.scrollBy({
+                left: -videoListCrousel.clientWidth / 2, // Adjust the scroll amount as needed
+                behavior: 'smooth'
+            });
+        });
+
+        rightBtn.addEventListener('click', () => {
+            videoListCrousel.scrollBy({
+                left: videoListCrousel.clientWidth / 2, // Adjust the scroll amount as needed
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Ensure label-cls videos autoplay on initial load
+    autoplayLabelVideos();
+    // Pause all carousel-item videos on initial load
+    pauseAllCarouselVideos();
+});
+</script>
+
+
+
+{% schema %}
+{
+  "name": "Video Story",
+  "settings": [
+
+    {
+      "type": "color",
+      "id": "back_clr",
+      "label": "Background Color"
+    },
+     {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "sub_heading",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "text",
+      "id": "btn_name",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    },
+     {
+          "type": "header",
+          "content": "Top Spacing"
+      },
+      {
+          "type": "range",
+          "id": "mg_top_desktop",
+          "label": "Top Desktop",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_top_tablet",
+          "label": "Top Tablet",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_top_mobile",
+          "label": "Top Mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "header",
+          "content": "Bottom Spacing"
+      },
+      {
+          "type": "range",
+          "id": "mg_bottom_desktop",
+          "label": "Bottom Desktop",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_bottom_tablet",
+          "label": "Bottom Tablet",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      },
+      {
+          "type": "range",
+          "id": "mg_bottom_mobile",
+          "label": "Bottom Mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "default": 50
+      }
+  ],
+    "blocks": [
+      {
+        "type": "list",
+        "name": "List",
+        "settings": [
+          {
+      "type": "url",
+      "id": "video_link",
+      "label": "Video Link"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Select Product"
+    }
+        ]
+      }
+    ],
+  "presets": [
+    {
+    "name": "Video Story"
+    }
+  ]
+}
+{% endschema %}
